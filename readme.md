@@ -42,8 +42,12 @@ $ ./install.sh
 
 ### Variables
 `VM_IMG=${VM_IMG:-"lts"}`
+
 `VM_MEM=${VM_MEM:-4G}`
+
 `VM_CPUS=${VM_CPUS:-2}`
+
+and more...
 
 
 ### Supported Environments

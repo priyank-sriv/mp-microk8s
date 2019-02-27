@@ -42,7 +42,6 @@ Copy the ip address from the IPv4 column: <EXTERNAL_IP>
 
 Load in browser: `http://<EXTERNAL_IP>:59001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/`
 
-
 #### Test installation
 
 [microbot example](https://tutorials.ubuntu.com/tutorial/install-a-local-kubernetes-with-microk8s#4)

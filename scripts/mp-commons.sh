@@ -96,5 +96,5 @@ function instructions() {
   log_info "Once connected to shell, steps to install K8s:"
   log_success "\t$ cd $VM_SCRIPTS_VOL"
   log_success "\t$ chmod +x install.sh"
-  log_success "\t$ ./shell.sh"
+  log_success "\t$ ./install.sh"
 }

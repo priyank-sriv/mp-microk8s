@@ -15,7 +15,7 @@ STORAGE_VOL="/multipass/volume/dev"
 PV_CAPACITY_STORAGE=${PV_CAPACITY_STORAGE:-30Gi}
 PVC_REQUEST_STORAGE=${PVC_REQUEST_STORAGE:-15Gi}
 
-KUBE_CONFIGS_DIR="/multipass/volume/kube-configs"
+CONFIGS_DIR="$HOME/k8s/configs"
 TEMPLATES_DIR="${WD}/templates"
 
 function install_k8s() {
@@ -28,15 +28,15 @@ function install_k8s() {
 }
 
 function install_volume() {
-  mkdir -p ${KUBE_CONFIGS_DIR}
-  cp -f ${TEMPLATES_DIR}/*.yaml ${KUBE_CONFIGS_DIR}
-  sed -i'.orig' -e `echo s^\$\{\{pv.host.path}}^${STORAGE_VOL}^g`                 ${KUBE_CONFIGS_DIR}/*.yaml
-  sed -i'.orig' -e `echo s/\$\{\{pv.capacity.storage}}/${PV_CAPACITY_STORAGE}/g`  ${KUBE_CONFIGS_DIR}/*.yaml
-  sed -i'.orig' -e `echo s/\$\{\{pvc.request.storage}}/${PVC_REQUEST_STORAGE}/g`  ${KUBE_CONFIGS_DIR}/*.yaml
+  mkdir -p ${CONFIGS_DIR}
+  cp -f ${TEMPLATES_DIR}/*.yaml ${CONFIGS_DIR}
+  sed -i'.orig' -e `echo s^\$\{\{pv.host.path}}^${STORAGE_VOL}^g`                 ${CONFIGS_DIR}/*.yaml
+  sed -i'.orig' -e `echo s/\$\{\{pv.capacity.storage}}/${PV_CAPACITY_STORAGE}/g`  ${CONFIGS_DIR}/*.yaml
+  sed -i'.orig' -e `echo s/\$\{\{pvc.request.storage}}/${PVC_REQUEST_STORAGE}/g`  ${CONFIGS_DIR}/*.yaml
 
-  kubectl create -f ${KUBE_CONFIGS_DIR}/storage_class.yaml
-  kubectl create -f ${KUBE_CONFIGS_DIR}/persistent_volume.yaml
-  kubectl create -f ${KUBE_CONFIGS_DIR}/pv_claim.yaml
+  kubectl create -f ${CONFIGS_DIR}/pv-storage-class.yaml
+  kubectl create -f ${CONFIGS_DIR}/pv-volume.yaml
+  kubectl create -f ${CONFIGS_DIR}/pv-claim.yaml
 
   log_info "\nPersistent Volume Status:\n"
   kubectl get pv

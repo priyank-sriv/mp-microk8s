@@ -49,6 +49,16 @@ Load in browser: `http://<EXTERNAL_IP>:59001/api/v1/namespaces/kube-system/servi
 #### Alias for script
 
 
+### Variables
+`VM_IMG=${VM_IMG:-"lts"}`
+
+`VM_MEM=${VM_MEM:-4G}`
+
+`VM_CPUS=${VM_CPUS:-2}`
+
+and more...
+
+
 ### Supported Environments
 - MacOSX
 - Ubuntu 18.04+

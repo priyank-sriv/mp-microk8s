@@ -78,14 +78,14 @@ function vm_destroy() {
   local VM=$1
   log_info "Cleaning up '${VM}'"
 
-  multipass delete ${VM}
-  multipass purge
-
   log_info "Removing local volume..."
   local LOCAL_STORAGE_VOL=$(echo "$LOCAL_STORAGE_VOL_TMPL" | sed "s/{{vm.name}}/${VM}/g")
-  multipass unmount ${VM}:${VM_STORAGE_VOL}
-  multipass unmount ${VM}:${VM_SCRIPTS_VOL}
+  multipass umount ${VM}:${VM_STORAGE_VOL}
+  multipass umount ${VM}:${VM_SCRIPTS_VOL}
   rm -rf ${LOCAL_STORAGE_VOL}
+
+  multipass delete ${VM}
+  multipass purge
 
   log_success "VM destroyed!"
   return $?

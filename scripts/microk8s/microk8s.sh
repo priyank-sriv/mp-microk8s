@@ -24,7 +24,7 @@ function install_kubernetes() {
 # https://github.com/ubuntu/microk8s#kubernetes-addons
 function enable_kube_addons() {
   log_info "Enabling microk8s addons..."
-  microk8s.enable dns ingress dashboard storage
+  microk8s.enable dns ingress dashboard
 
   until [[ `kubectl get pods -n=kube-system | grep -o 'ContainerCreating' | wc -l` == 0 ]] ; do
     echo "Waiting for microk8s addons to be ready... ("`kubectl get pods -n=kube-system | grep -o 'ContainerCreating' | wc -l`" not running)"

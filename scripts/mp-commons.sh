@@ -7,7 +7,7 @@ VM_CPUS=${VM_CPUS:-2}
 WD="$(cd "$(dirname "$0")" >/dev/null && pwd)"
 . "${WD}/commons.sh"
 
-LOCAL_STORAGE_VOL_TMPL=${LOCAL_VOL_TMPL:-"${HOME}/.canonical-vol/{{vm.name}}/shared"}
+LOCAL_STORAGE_VOL_TMPL=${LOCAL_VOL_TMPL:-"${HOME}/.canonical-vol/{{vm.name}}"}
 VM_STORAGE_VOL="/multipass/volume/dev"
 
 LOCAL_SCRIPTS_VOL="${WD}/microk8s"
@@ -83,8 +83,8 @@ function vm_destroy() {
 
   log_info "Removing local volume..."
   local LOCAL_STORAGE_VOL=$(echo "$LOCAL_STORAGE_VOL_TMPL" | sed "s/{{vm.name}}/${VM}/g")
-  multipass unmount mount ${VM}:${VM_STORAGE_VOL}
-  multipass unmount mount ${VM}:${VM_SCRIPTS_VOL}
+  multipass unmount ${VM}:${VM_STORAGE_VOL}
+  multipass unmount ${VM}:${VM_SCRIPTS_VOL}
   rm -rf ${LOCAL_STORAGE_VOL}
 
   log_success "VM destroyed!"

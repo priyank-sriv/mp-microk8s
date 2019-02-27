@@ -11,11 +11,11 @@ NC='\033[0m'
 WD="$(cd "$(dirname "$0")" >/dev/null && pwd)"
 . "${WD}/microk8s.sh"
 
-STORAGE_VOL="${HOME}/.canonical-vol/dev"
+STORAGE_VOL="/multipass/volume/dev"
 PV_CAPACITY_STORAGE=${PV_CAPACITY_STORAGE:-30Gi}
 PVC_REQUEST_STORAGE=${PVC_REQUEST_STORAGE:-15Gi}
 
-KUBE_CONFIGS_DIR="${WD}/configs"
+KUBE_CONFIGS_DIR="/multipass/volume/kube-configs"
 TEMPLATES_DIR="${WD}/templates"
 
 function install_k8s() {
@@ -28,6 +28,7 @@ function install_k8s() {
 }
 
 function install_volume() {
+  mkdir -p ${KUBE_CONFIGS_DIR}
   cp -f ${TEMPLATES_DIR}/*.yaml ${KUBE_CONFIGS_DIR}
   sed -i'.orig' -e `echo s^\$\{\{pv.host.path}}^${STORAGE_VOL}^g`                 ${KUBE_CONFIGS_DIR}/*.yaml
   sed -i'.orig' -e `echo s/\$\{\{pv.capacity.storage}}/${PV_CAPACITY_STORAGE}/g`  ${KUBE_CONFIGS_DIR}/*.yaml

@@ -34,4 +34,22 @@ function enable_kube_addons() {
   return $?
 }
 
+function forward_dashboard() {
+  FORWARD_PORT=59001
+  LOCAL_HOST='0.0.0.0'
+
+  # Ensure the port is open...
+  PORT_STATUS=`sudo netstat -tulpn | grep ${PROXY_PORT}` &>/dev/null
+  if ! [ -z "$PORT_STATUS" ] ; then
+    log_error "Port ${PROXY_PORT} is already used. Exiting"
+    fatal "Process: `echo ${PORT_STATUS} | cut -d ' ' -f 7`"
+  fi
+
+  # This command runs the proxy, allowing anyone to connect
+  kubectl proxy --port=${FORWARD_PORT} --accept-hosts='^.*$' --address=${LOCAL_HOST} &
+
+  log_success "\nTo access the kubernetes dashboard, go to:\n"
+  log_success "\n\t http://<EXTERNAL_IP>:59001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/ \n"
+}
+
 #iptables -P FORWARD ACCEPT

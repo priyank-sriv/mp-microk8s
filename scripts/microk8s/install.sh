@@ -80,3 +80,4 @@ function log_error() {
 install_k8s
 install_volume
 install_helm
+forward_dashboard

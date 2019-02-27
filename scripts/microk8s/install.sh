@@ -30,9 +30,9 @@ function install_k8s() {
 function install_volume() {
   mkdir -p ${CONFIGS_DIR}
   cp -f ${TEMPLATES_DIR}/*.yaml ${CONFIGS_DIR}
-  sed -i'.orig' -e `echo s^\$\{\{pv.host.path}}^${STORAGE_VOL}^g`                 ${CONFIGS_DIR}/*.yaml
-  sed -i'.orig' -e `echo s/\$\{\{pv.capacity.storage}}/${PV_CAPACITY_STORAGE}/g`  ${CONFIGS_DIR}/*.yaml
-  sed -i'.orig' -e `echo s/\$\{\{pvc.request.storage}}/${PVC_REQUEST_STORAGE}/g`  ${CONFIGS_DIR}/*.yaml
+  sed -i'.orig' -e `echo s^\{\{pv.host.path}}^${STORAGE_VOL}^g`                 ${CONFIGS_DIR}/*.yaml
+  sed -i'.orig' -e `echo s/\{\{pv.capacity.storage}}/${PV_CAPACITY_STORAGE}/g`  ${CONFIGS_DIR}/*.yaml
+  sed -i'.orig' -e `echo s/\{\{pvc.request.storage}}/${PVC_REQUEST_STORAGE}/g`  ${CONFIGS_DIR}/*.yaml
 
   kubectl create -f ${CONFIGS_DIR}/pv-storage-class.yaml
   kubectl create -f ${CONFIGS_DIR}/pv-volume.yaml

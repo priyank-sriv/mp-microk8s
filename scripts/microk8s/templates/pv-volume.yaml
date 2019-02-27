@@ -1,0 +1,15 @@
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: local-pv
+  labels:
+    type: local
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: {{pv.capacity.storage}}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{pv.host.path}}

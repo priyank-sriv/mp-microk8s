@@ -1,0 +1,12 @@
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: local-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-storage
+  resources:
+    requests:
+      storage: {{pvc.request.storage}}

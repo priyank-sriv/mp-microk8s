@@ -11,9 +11,10 @@ WD="$(cd "$(dirname "$0")" >/dev/null && pwd)"
 
 function launch() {
   install_if_not_exists_multipass
+  wait_for_multipassd
 
   if vm_exists ${VM_NAME} ; then
-    log_info "${VM_NAME} already exists! Starting..."
+    log_info "${VM_NAME} already exists!"
     vm_start ${VM_NAME}
   else
     vm_launch ${VM_NAME}
@@ -59,8 +60,15 @@ function connect() {
 declare -a ACTIONS=(up down restart destroy connect)
 command_list=$(printf ", %s" "${ACTIONS[@]}")
 
+function usage () {
+  log_info "Usage : script <action> <vm_name>"
+  log_info "Supported actions=> ${command_list:2}"
+  exit 0
+}
+
 if [ "$#" -ne 2 ] ; then
-  fatal "Incorrect parameters.\nFirst param: 'Action', Supported actions=> ${command_list:2}\nSecond param: 'VM name'"
+  log_error "Incorrect script parameters"
+  usage
 fi
 
 ACTION=$1

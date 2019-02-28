@@ -78,14 +78,14 @@ function vm_destroy() {
   local VM=$1
   log_info "Cleaning up '${VM}'"
 
-  log_info "Removing local volume..."
   local LOCAL_STORAGE_VOL=$(echo "$LOCAL_STORAGE_VOL_TMPL" | sed "s/{{vm.name}}/${VM}/g")
-  multipass umount ${VM}:${VM_STORAGE_VOL}
-  multipass umount ${VM}:${VM_SCRIPTS_VOL}
-  rm -rf ${LOCAL_STORAGE_VOL}
-
+#  multipass umount ${VM}:${VM_STORAGE_VOL}
+#  multipass umount ${VM}:${VM_SCRIPTS_VOL}
   multipass delete ${VM}
   multipass purge
+
+  log_info "Removing local volume..."
+  rm -rf ${LOCAL_STORAGE_VOL}
 
   log_success "VM destroyed!"
   return $?
@@ -97,4 +97,11 @@ function instructions() {
   log_success "\t$ cd $VM_SCRIPTS_VOL"
   log_success "\t$ chmod +x install.sh"
   log_success "\t$ ./install.sh"
+}
+
+function wait_for_multipassd() {
+  until [[ `multipass list 2>&1 > /dev/null` != *"list failed"* ]] ; do                                                                    11:29  28.02.19 ⇣93%
+    echo "Waiting for multipassd..."
+    sleep 3
+  done
 }

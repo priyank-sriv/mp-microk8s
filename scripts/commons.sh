@@ -5,8 +5,8 @@ RED='\033[1;31m'
 BLUE='\033[0;36m'
 NC='\033[0m'
 
-MULTIPASS_VER=v0.5
-MULTIPASS_PKG=multipass-$MULTIPASS_VER-full-Darwin.pkg
+MULTIPASS_VER=v0.6.0-pre1 #v0.5
+MULTIPASS_PKG=multipass-v0.5-full-16-g0038fc1-Darwin.pkg #multipass-v0.5-full-Darwin.pkg
 
 function install_if_not_exists_multipass() {
   if ! hash multipass &>/dev/null; then

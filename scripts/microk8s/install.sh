@@ -4,7 +4,7 @@ set -e  # exit immediately on error
 set -u  # fail on undeclared variables
 
 WD="$(cd "$(dirname "$0")" >/dev/null && pwd)"
-. "${WD}/commons.sh"
+. "${WD}/utils.sh"
 . "${WD}/microk8s.sh"
 
 STORAGE_VOL="/multipass/volume/dev"
@@ -15,6 +15,7 @@ CONFIGS_DIR="$HOME/k8s/configs"
 TEMPLATES_DIR="${WD}/templates"
 
 function install_k8s() {
+  log_info "Installing..."
   sudo snap install core
   install_kubernetes
   log_success "Installed microk8s successfully"

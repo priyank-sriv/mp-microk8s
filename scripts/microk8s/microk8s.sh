@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 WD="$(cd "$(dirname "$0")" >/dev/null && pwd)"
-. "${WD}/microk8s.sh"
+. "${WD}/utils.sh"
 
 MICROK8S_CHANNEL=1.13/stable
 

@@ -59,14 +59,16 @@ function install_helm() {
   sudo snap install helm --classic
   helm init
   log_success "Installed helm successfully"
+  return $?
 }
 
 function forward_dashboard() {
-  FORWARD_PORT=59001
-  LOCAL_HOST='0.0.0.0'
+  local FORWARD_PORT=59001
+  local LOCAL_HOST='0.0.0.0'
+  log_info "Exposing dashboard on port $FORWARD_PORT"
 
   # Ensure the port is open...
-  PORT_STATUS=`sudo netstat -tulpn | grep ${FORWARD_PORT}` &>/dev/null
+  local PORT_STATUS=`sudo netstat -tulpn | grep ${FORWARD_PORT}` &>/dev/null
   if ! [ -z "$PORT_STATUS" ] ; then
     log_error "Port ${FORWARD_PORT} is already used. Exiting"
     fatal "Process: `echo ${PORT_STATUS} | cut -d ' ' -f 7`"
